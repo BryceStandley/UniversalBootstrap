@@ -38,10 +38,10 @@ jobs:
           if-no-files-found: error
           
       - name: Create Release
-          uses: softprops/action-gh-release@v3
-          if: github.ref_type == 'tag'
-          with:
-            working_directory: build/bin/${{ matrix.config }}
-            files: |
-              UniversalBootstrap.exe
-              UniversalTester.exe
+        uses: softprops/action-gh-release@v3
+        if: github.ref_type == 'tag'
+        with:
+          working_directory: build/bin/${{ matrix.config }}
+          files: |
+            UniversalBootstrap.exe
+            UniversalTester.exe
