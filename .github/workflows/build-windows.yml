@@ -37,10 +37,14 @@ jobs:
             build/bin/${{ matrix.config }}/UniversalTester.exe
           if-no-files-found: error
           
+      - name: Get short SHA
+        id: slug
+        run: echo "::set-output name=sha7::$(echo ${github.sha} | cut -c1-7)"
+          
       - name: Create Release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.sha }}
+          tag_name: ${{ steps.slug.outputs.sha7 }}
           working_directory: build/bin/${{ matrix.config }}
           files: |
             UniversalBootstrap.exe
