@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build project
+        run: |
+          msbuild.exe UniversalBootstrap.sln /p:Configuration=Release
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
+          body: "Auto-generated release from the CI/CD workflow"
+          draft: false
+          prerelease: false

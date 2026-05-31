@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Win32" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="UniversalBootstrap.vcxproj">
+    <BuildType Solution="Debug|x64" Project="Release" />
+  </Project>
+  <Project Path="UniversalTester/UniversalTester.vcxproj">
+    <BuildType Solution="Debug|x64" Project="Release" />
+  </Project>
+</Solution>
