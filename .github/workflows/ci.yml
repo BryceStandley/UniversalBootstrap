@@ -7,10 +7,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v3
+
+      - name: Print Project Files
+        run: dir
 
       - name: Build project
         run: msbuild UniversalBootstrap.sln -verbosity:diag -property:Configuration=Release
