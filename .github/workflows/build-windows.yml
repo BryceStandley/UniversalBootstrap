@@ -46,9 +46,6 @@ jobs:
           $sha7 = $env:GITHUB_SHA.Substring(0,7)
           "sha7=$sha7" >> $env:GITHUB_OUTPUT
 
-      - name: Print short SHA
-        run: echo "Short SHA: ${{ steps.slug.outputs.sha7 }}"
-
       - name: Create Release
         uses: softprops/action-gh-release@v3
         with:
