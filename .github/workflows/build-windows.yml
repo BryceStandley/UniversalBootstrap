@@ -39,8 +39,8 @@ jobs:
           
       - name: Create Release
         uses: softprops/action-gh-release@v3
-        if: github.ref_type == 'tag'
         with:
+          tag_name: ${{ github.sha::0:7 }}
           working_directory: build/bin/${{ matrix.config }}
           files: |
             UniversalBootstrap.exe
