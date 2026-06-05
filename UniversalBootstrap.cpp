@@ -68,7 +68,27 @@ void launchApp(std::string filePath) {
     {
         std::filesystem::current_path(defaultDir);
         
-        system(command.c_str()); 
+        //system(command.c_str());
+        
+        std::wstring wCmd = std::wstring(command.begin(), command.end());
+        STARTUPINFOW si = { sizeof(si) };
+        PROCESS_INFORMATION pi = { 0 };
+        
+        if (debugLoggingEnabled) {
+            std::wcout << L"Launching command natively: " << wCmd << '\n';
+        }
+        
+        if (CreateProcessW(NULL, wCmd.data(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+        {
+            WaitForSingleObject(pi.hProcess, INFINITE);
+            
+            CloseHandle(pi.hProcess);
+            CloseHandle(pi.hThread);
+        }
+        else
+        {
+            std::cerr << "CreateProcess failed with error code: " << GetLastError() << '\n';
+        }
     }
     catch (const fs::filesystem_error& e) {
         std::cerr << "Error: " << e.what() << '\n';
@@ -141,11 +161,16 @@ int main(int argc, char* argv[]) {
             
             if (debugLoggingEnabled) std::cout << "Renaming " << argString << " to " << newIcaFilePath << std::endl;
 
-            
-            if (rename(argString.c_str(), newIcaFilePath.c_str()) != 0) {
-                 std::cout << "Failed to rename file" << std::endl;
-                 return -1;
+            try
+            {
+                std::filesystem::rename(argString, newIcaFilePath);
             }
+            catch (const fs::filesystem_error& e)
+            {
+                std::cout << "Failed to rename file with error: " << e.what() << '\n';
+                return -1;
+            }
+            
 
             launchApp(newIcaFilePath);
         } else {

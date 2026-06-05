@@ -1,0 +1,30 @@
+#include <windows.h>
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       0x0L
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0" // U.S. English, Unicode
+        BEGIN
+            VALUE "CompanyName",      "Bryce Standley\0"
+            VALUE "FileDescription",  "Universal Bootstrapper Utility Tester\0"
+            VALUE "FileVersion",      "1.0.0.0\0"
+            VALUE "InternalName",     "bootstrap tester\0"
+            VALUE "LegalCopyright",   "Copyright (C) Bryce Standley 2026\0"
+            VALUE "OriginalFilename", "universalTester.exe\0"
+            VALUE "ProductName",      "Universal Bootstrap Test App\0"
+            VALUE "ProductVersion",   "1.0.0.0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

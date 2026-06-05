@@ -18,10 +18,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 add_executable(UniversalBootstrap
         UniversalBootstrap.cpp
+        Resource.rc
 )
 
 add_executable(UniversalTester
         UniversalTester/UniversalTester.cpp
+        Resource.rc
 )
 
 # MSVC-specific compile options roughly aligned with the .vcxproj settings.
