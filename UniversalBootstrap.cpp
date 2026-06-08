@@ -7,6 +7,10 @@
 #include <windows.h>
 #include <random>
 #include <comutil.h>
+#include <vector>
+#include <iomanip>
+#include <sstream>
+
 
 namespace fs = std::filesystem;
 
@@ -141,6 +145,88 @@ static std::string getNewFilePath(const std::string &filePath) {
     return p2.string();
 }
 
+void modifyIcaFile(const std::string& filePath)
+{
+    std::ifstream in(filePath);
+    if (!in)
+    {
+        std::cerr << "Failed to open ICA file: " << filePath << std::endl;
+        return;
+    }
+
+    std::vector<std::string> lines;
+    std::string line;
+
+    bool foundConnectionBar = false;
+    bool foundDesiredColor = false;
+    bool foundDesiredHRES = false;
+    bool foundDesiredVRES = false;
+    bool foundTWIMode = false;
+
+    while (std::getline(in, line))
+    {
+        if (line.rfind("ConnectionBar=", 0) == 0)
+        {
+            line = "ConnectionBar=0";
+            foundConnectionBar = true;
+        }
+        else if (line.rfind("DesiredColor=", 0) == 0)
+        {
+            line = "DesiredColor=32";
+            foundDesiredColor = true;
+        }
+        else if (line.rfind("DesiredHRES=", 0) == 0)
+        {
+            line = "DesiredHRES=1920";
+            foundDesiredHRES = true;
+        }
+        else if (line.rfind("DesiredVRES=", 0) == 0)
+        {
+            line = "DesiredVRES=1000";
+            foundDesiredVRES = true;
+        }
+        else if (line.rfind("TWIMode=", 0) == 0)
+        {
+            line = "TWIMode=Off";
+            foundTWIMode = true;
+        }
+
+        lines.push_back(line);
+    }
+
+    in.close();
+
+    // Add missing settings
+    if (!foundConnectionBar)
+        lines.push_back("ConnectionBar=0");
+
+    if (!foundDesiredColor)
+        lines.push_back("DesiredColor=32");
+
+    if (!foundDesiredHRES)
+        lines.push_back("DesiredHRES=1920");
+
+    if (!foundDesiredVRES)
+        lines.push_back("DesiredVRES=1000");
+
+    if (!foundTWIMode)
+        lines.push_back("TWIMode=Off");
+
+    std::ofstream out(filePath, std::ios::trunc);
+    if (!out)
+    {
+        std::cerr << "Failed to write ICA file: " << filePath << std::endl;
+        return;
+    }
+
+    for (const auto& l : lines)
+    {
+        out << l << '\n';
+    }
+
+    out.close();
+}
+
 int main(int argc, char* argv[]) {
     parseIni();
     
@@ -164,6 +250,13 @@ int main(int argc, char* argv[]) {
             try
             {
                 std::filesystem::rename(argString, newIcaFilePath);
+
+if (debugLoggingEnabled)
+{
+    std::cout << "Updating ICA settings..." << std::endl;
+}
+
+modifyIcaFile(newIcaFilePath);
             }
             catch (const fs::filesystem_error& e)
             {
