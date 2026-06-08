@@ -23,7 +23,7 @@ add_executable(UniversalBootstrap
 
 add_executable(UniversalTester
         UniversalTester/UniversalTester.cpp
-        Resource.rc
+        UniversalTester/Resource.rc
 )
 
 # MSVC-specific compile options roughly aligned with the .vcxproj settings.
