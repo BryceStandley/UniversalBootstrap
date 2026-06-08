@@ -18,7 +18,7 @@ BEGIN
             VALUE "FileVersion",      "1.0.0.0\0"
             VALUE "InternalName",     "bootstrap\0"
             VALUE "LegalCopyright",   "Copyright (C) Bryce Standley 2026\0"
-            VALUE "OriginalFilename", "universalBootstrap.exe\0"
+            VALUE "OriginalFilename", "UniversalBootstrap.exe\0"
             VALUE "ProductName",      "Universal Bootstrap App\0"
             VALUE "ProductVersion",   "1.0.0.0\0"
         END
